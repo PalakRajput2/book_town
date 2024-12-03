@@ -23,7 +23,7 @@ app.use(
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow necessary HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+    allowedHeaders: ["Content-Type", "Authorization","id"], // Allow necessary headers
     credentials: true, // Allow cookies if needed (e.g., for sessions)
   })
 );

@@ -10,16 +10,32 @@ const Books = require("./routes/book");
 const Favourite = require("./routes/favourite");
 const Cart = require("./routes/cart");
 const Order = require("./routes/order");
-app.use(cors());
+
+// Restrict CORS to Netlify frontend
+const allowedOrigins = ["https://inspiring-elf-965a66.netlify.app"];
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow cookies if needed
+  })
+);
+
 app.use(express.json());
 
-//routes
-app.use("/api/v1",User);
+// Routes
+app.use("/api/v1", User);
 app.use("/api/v1", Books);
 app.use("/api/v1", Favourite);
-app.use("/api/v1",Cart);
-app.use("/api/v1",Order);
-//creating port
-app.listen(process.env.PORT,()=>{
-    console.log(`Server is running at port ${process.env.PORT}`);
-})
+app.use("/api/v1", Cart);
+app.use("/api/v1", Order);
+
+// Creating port
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running at port ${process.env.PORT}`);
+});

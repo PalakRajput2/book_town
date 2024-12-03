@@ -23,6 +23,8 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow these methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow these headers
     credentials: true, // Allow cookies if needed
   })
 );
@@ -36,13 +38,13 @@ app.use("/api/v1", Favourite);
 app.use("/api/v1", Cart);
 app.use("/api/v1", Order);
 
-// Test route (To ensure root is accessible)
+// Test route
 app.get("/", (req, res) => {
   res.send("Backend is working");
 });
 
-// Creating port (now set to 1000)
-const port = 1000; // Ensure it's set to 1000
+// Creating port
+const port = 1000;
 app.listen(port, () => {
   console.log(`Server is running at port ${port}`);
 });

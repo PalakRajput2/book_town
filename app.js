@@ -23,7 +23,7 @@ app.use(
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "id"],
+    allowedHeaders: ["Content-Type", "Authorization", "id" , "bookid"],
     credentials: true, // Allow cookies if needed
   })
 );

@@ -11,7 +11,7 @@ const Favourite = require("./routes/favourite");
 const Cart = require("./routes/cart");
 const Order = require("./routes/order");
 
-// Restrict CORS to Netlify frontend
+// Restrict CORS to allowed origins (Netlify frontend URL)
 const allowedOrigins = ["https://inspiring-elf-965a66.netlify.app"];
 app.use(
   cors({
@@ -19,6 +19,7 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.error(`CORS error: ${origin} not allowed`);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -35,7 +36,18 @@ app.use("/api/v1", Favourite);
 app.use("/api/v1", Cart);
 app.use("/api/v1", Order);
 
-// Creating port
+// Default route for root requests
+app.get("/", (req, res) => {
+  res.send("Welcome to the BookTown API!");
+});
+
+// Error handling middleware for better debugging
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: "Something went wrong!" });
+});
+
+// Start server on the specified port
 app.listen(process.env.PORT, () => {
   console.log(`Server is running at port ${process.env.PORT}`);
 });

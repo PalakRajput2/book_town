@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-require("./conn/conn");
+require("./conn/conn"); // Database connection
 
+// Importing Routes
 const User = require("./routes/user");
 const Books = require("./routes/book");
 const Favourite = require("./routes/favourite");
@@ -12,7 +13,7 @@ const Order = require("./routes/order");
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = ["https://inspiring-elf-965a66.netlify.app"]; // Replace with your frontend domain
+const allowedOrigins = ["https://inspiring-elf-965a66.netlify.app"]; // Frontend URL
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -28,11 +29,11 @@ app.use(
   })
 );
 
-// Handle Preflight Requests
+// Handle Preflight Requests (OPTIONS)
 app.options("*", cors());
 
-// Middleware
-app.use(express.json()); // Parse incoming JSON requests
+// Middleware for JSON Parsing
+app.use(express.json());
 
 // Debugging Middleware to Log Incoming Requests
 app.use((req, res, next) => {
@@ -47,7 +48,7 @@ app.use("/api/v1", Favourite);
 app.use("/api/v1", Cart);
 app.use("/api/v1", Order);
 
-// Default Root Route
+// Default Route for Health Check
 app.get("/", (req, res) => {
   res.status(200).send("Backend is running smoothly!");
 });
@@ -56,9 +57,9 @@ app.get("/", (req, res) => {
 app.use((err, req, res, next) => {
   console.error(`Error: ${err.message}`);
   if (err.message === "Not allowed by CORS") {
-    return res.status(403).send("CORS error: Access not allowed");
+    return res.status(403).json({ error: "CORS error: Access not allowed" });
   }
-  res.status(500).send("Internal Server Error");
+  res.status(500).json({ error: "Internal Server Error" });
 });
 
 // Start Server

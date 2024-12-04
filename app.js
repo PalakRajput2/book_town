@@ -13,19 +13,19 @@ const Order = require("./routes/order");
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = ["https://inspiring-elf-965a66.netlify.app"]; // Frontend URL
+const allowedOrigins = ["https://inspiring-elf-965a66.netlify.app"]; // Add your frontend URL
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
+        callback(null, true); // Allow the request
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new Error("Not allowed by CORS")); // Block the request
       }
     },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "id", "bookid"],
-    credentials: true, // Allow cookies if needed
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization", "id", "bookid"], // Allowed headers
+    credentials: true, // Allow cookies
   })
 );
 
